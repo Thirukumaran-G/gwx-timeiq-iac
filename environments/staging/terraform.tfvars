@@ -4,7 +4,7 @@ environment  = "staging"
 app_name     = "gwx-timeiq"
 team_label   = "platform"
 domain       = "staging.timeiq.deploy.poc.genworx.ai"
-existing_dns_zone_name = "deploy.poc.genworx.ai"
+existing_dns_zone_name = "deploy-poc-genworx-ai"
 alert_email  = "thirukumarang@genworx.ai"
 
 vpc_cidr                 = "10.0.0.0/24"
