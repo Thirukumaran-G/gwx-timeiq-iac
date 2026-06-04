@@ -308,3 +308,8 @@ variable "frontend_deployer_sa_email" {
   description = "Frontend deployer SA email (created by bootstrap)"
   type        = string
 }
+
+variable "existing_dns_zone_name" {
+  type = string
+}
+

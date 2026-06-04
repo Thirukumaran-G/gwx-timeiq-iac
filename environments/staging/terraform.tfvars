@@ -1,10 +1,11 @@
-project_id   = "qwiklabs-gcp-00-5024a5ef17cf"
-region       = "asia-south1"
+project_id   = "gwx-devops-internship"
+region       = "us-central1"
 environment  = "staging"
 app_name     = "gwx-timeiq"
 team_label   = "platform"
-domain       = "staging.timeiq.genworx.ai"
-alert_email  = "devops@genworx.ai"
+domain       = "staging.timeiq.deploy.poc.genworx.ai"
+existing_dns_zone_name = "deploy.poc.genworx.ai"
+alert_email  = "thirukumarang@genworx.ai"
 
 vpc_cidr                 = "10.0.0.0/24"
 connector_cidr           = "10.8.0.0/28"
@@ -57,6 +58,6 @@ dns_ttl                 = 300
 frontend_cors_max_age   = 3600
 
 # Paste from bootstrap output
-backend_runtime_sa_email   = "gw-timeiq-api-sa-staging@YOUR_GCP_PROJECT_ID.iam.gserviceaccount.com"
-backend_deployer_sa_email  = "gw-timeiq-be-deploy-staging@YOUR_GCP_PROJECT_ID.iam.gserviceaccount.com"
-frontend_deployer_sa_email = "gw-timeiq-fe-deploy-staging@YOUR_GCP_PROJECT_ID.iam.gserviceaccount.com"
+backend_runtime_sa_email   = "gw-timeiq-api-sa-staging@gwx-devops-internship.iam.gserviceaccount.com"
+backend_deployer_sa_email  = "gw-timeiq-be-deploy-staging@gwx-devops-internship.iam.gserviceaccount.com"
+frontend_deployer_sa_email = "gw-timeiq-fe-deploy-staging@gwx-devops-internship.iam.gserviceaccount.com"
