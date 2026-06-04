@@ -4,7 +4,7 @@ locals {
 
   vpc_name        = "${local.prefix}-vpc-${local.env}"
   subnet_name     = "${local.prefix}-subnet-${local.env}"
-  connector_name  = "${local.prefix}-connector-${local.env}"
+  connector_name  = "gwx-tiq-stg-conn"
   router_name     = "${local.prefix}-router-${local.env}"
   nat_name        = "${local.prefix}-nat-${local.env}"
   psa_range_name  = "${local.prefix}-psa-${local.env}"

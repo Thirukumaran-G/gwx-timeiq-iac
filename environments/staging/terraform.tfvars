@@ -8,7 +8,6 @@ existing_dns_zone_name = "deploy-poc-genworx-ai"
 alert_email  = "thirukumarang@genworx.ai"
 
 vpc_cidr                 = "10.0.0.0/24"
-connector_name = "gwx-tiq-stg-conn" 
 connector_cidr           = "10.8.0.0/28"
 psa_prefix_length        = 16
 connector_min_throughput = 200
