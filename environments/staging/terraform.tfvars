@@ -58,6 +58,6 @@ dns_ttl                 = 300
 frontend_cors_max_age   = 3600
 
 # Paste from bootstrap output
-backend_runtime_sa_email   = "gw-timeiq-api-sa-staging@gwx-devops-internship.iam.gserviceaccount.com"
-backend_deployer_sa_email  = "gw-timeiq-be-deploy-staging@gwx-devops-internship.iam.gserviceaccount.com"
-frontend_deployer_sa_email = "gw-timeiq-fe-deploy-staging@gwx-devops-internship.iam.gserviceaccount.com"
+backend_runtime_sa_email   = "gwx-timeiq-api-sa-staging@gwx-devops-internship.iam.gserviceaccount.com"
+backend_deployer_sa_email  = "gwx-timeiq-be-deploy-staging@gwx-devops-internship.iam.gserviceaccount.com"
+frontend_deployer_sa_email = "gwx-timeiq-fe-deploy-staging@gwx-devops-internship.iam.gserviceaccount.com"
