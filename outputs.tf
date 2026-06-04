@@ -22,6 +22,6 @@ output "redis_host" {
 }
 
 output "nameservers" {
-  description = "Point your domain registrar at these NS records"
-  value       = google_dns_managed_zone.main.name_servers
+  description = "Authoritative nameservers for the existing DNS zone"
+  value       = data.google_dns_managed_zone.existing.name_servers
 }
