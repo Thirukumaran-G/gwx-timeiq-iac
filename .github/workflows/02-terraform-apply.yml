@@ -8,7 +8,7 @@ on:
         required: true
         default: staging
         type: choice
-        options: [staging, prod]
+        options: [staging]
 
 permissions:
   contents: read
@@ -16,15 +16,11 @@ permissions:
 
 jobs:
   apply:
-    name: "Apply — ${{ matrix.env }}"
+    name: "Apply — staging"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        env:
-          - ${{ github.event_name == 'workflow_dispatch' && inputs.environment || (github.ref_name == 'main' && 'prod' || 'staging') }}
-    environment: ${{ matrix.env }}
+    environment: staging
     concurrency:
-      group: tf-apply-${{ matrix.env }}
+      group: tf-apply-staging
       cancel-in-progress: false
 
     steps:
@@ -33,7 +29,7 @@ jobs:
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
-          service_account: ${{ matrix.env == 'prod' && secrets.IAC_SA_EMAIL_PROD || secrets.IAC_SA_EMAIL_STAGING }}
+          service_account: ${{ secrets.IAC_SA_EMAIL }}
 
       - uses: hashicorp/setup-terraform@v3
         with:
@@ -42,13 +38,13 @@ jobs:
       - name: Init
         run: |
           terraform init \
-            -backend-config="environments/${{ matrix.env }}/backend.tfvars" \
+            -backend-config="environments/staging/backend.tfvars" \
             -reconfigure
 
       - name: Plan
         run: |
           terraform plan \
-            -var-file="environments/${{ matrix.env }}/terraform.tfvars" \
+            -var-file="environments/staging/terraform.tfvars" \
             -out=tfplan
 
       - name: Apply
@@ -56,7 +52,7 @@ jobs:
 
       - name: Summary
         run: |
-          echo "## Apply complete ✅ — ${{ matrix.env }}" >> $GITHUB_STEP_SUMMARY
+          echo "## Apply complete ✅ — staging" >> $GITHUB_STEP_SUMMARY
           echo "| Output | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| LB IP | $(terraform output -raw lb_ip) |" >> $GITHUB_STEP_SUMMARY

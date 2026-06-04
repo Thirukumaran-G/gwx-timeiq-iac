@@ -1,7 +1,7 @@
 project_id   = "qwiklabs-gcp-00-5024a5ef17cf"
 region       = "asia-south1"
 environment  = "staging"
-app_name     = "gw-timeiq"
+app_name     = "gwx-timeiq"
 team_label   = "platform"
 domain       = "staging.timeiq.genworx.ai"
 alert_email  = "devops@genworx.ai"

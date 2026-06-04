@@ -3,11 +3,6 @@ name: "03 · Terraform Destroy"
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description: "Environment to destroy"
-        required: true
-        type: choice
-        options: [staging, prod]
       confirm:
         description: "Type DESTROY to confirm"
         required: true
@@ -24,15 +19,13 @@ jobs:
         run: |
           [ "${{ inputs.confirm }}" = "DESTROY" ] || \
             (echo "❌ Confirmation string invalid" && exit 1)
-          [ "${{ inputs.environment }}" != "prod" ] || \
-            (echo "❌ Prod destroy is blocked via automation" && exit 1)
 
   destroy:
     needs: guard
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: staging
     concurrency:
-      group: tf-apply-${{ inputs.environment }}
+      group: tf-apply-staging
       cancel-in-progress: false
 
     steps:
@@ -41,7 +34,7 @@ jobs:
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
-          service_account: ${{ inputs.environment == 'prod' && secrets.IAC_SA_EMAIL_PROD || secrets.IAC_SA_EMAIL_STAGING }}
+          service_account: ${{ secrets.IAC_SA_EMAIL }}
 
       - uses: hashicorp/setup-terraform@v3
         with:
@@ -50,11 +43,11 @@ jobs:
       - name: Init
         run: |
           terraform init \
-            -backend-config="environments/${{ inputs.environment }}/backend.tfvars" \
+            -backend-config="environments/staging/backend.tfvars" \
             -reconfigure
 
       - name: Destroy
         run: |
           terraform destroy \
-            -var-file="environments/${{ inputs.environment }}/terraform.tfvars" \
+            -var-file="environments/staging/terraform.tfvars" \
             -auto-approve
