@@ -35,6 +35,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.9.0"
+          terraform_wrapper: false
 
       - name: Init
         run: |
@@ -51,9 +52,16 @@ jobs:
       - name: Apply
         run: terraform apply -auto-approve tfplan
 
+      - name: Print outputs
+        run: |
+          echo "LB_IP=$(terraform output -raw lb_ip)"
+          echo "FRONTEND_BUCKET=$(terraform output -raw frontend_bucket)"
+          echo "BACKEND_SERVICE=$(terraform output -raw backend_service_name)"
+
       - name: Summary
         run: |
           echo "## Apply complete ✅ — staging" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Output | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| LB IP | $(terraform output -raw lb_ip) |" >> $GITHUB_STEP_SUMMARY
