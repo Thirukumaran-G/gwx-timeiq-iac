@@ -30,6 +30,7 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
           service_account: ${{ secrets.IAC_SA_EMAIL }}
+          project_id: gwx-devops-internship
 
       - uses: hashicorp/setup-terraform@v3
         with:
