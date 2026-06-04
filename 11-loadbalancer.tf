@@ -20,21 +20,26 @@ resource "google_compute_security_policy" "armor" {
   }
 
   rule {
-    action   = "deny(429)"
-    priority = 1002
-    match {
-      expr { expression = "true" }
-    }
-    rate_limit_options {
-      conform_action = "allow"
-      exceed_action  = "deny(429)"
-      enforce_on_key = "IP"
-      rate_limit_threshold {
-        count        = var.rate_limit_count
-        interval_sec = var.rate_limit_interval_sec
-      }
+  action   = "throttle"
+  priority = 1002
+
+  match {
+    expr {
+      expression = "true"
     }
   }
+
+  rate_limit_options {
+    conform_action = "allow"
+    exceed_action  = "deny(429)"
+    enforce_on_key = "IP"
+
+    rate_limit_threshold {
+      count        = var.rate_limit_count
+      interval_sec = var.rate_limit_interval_sec
+    }
+  }
+ }
 
   rule {
     action   = "allow"
