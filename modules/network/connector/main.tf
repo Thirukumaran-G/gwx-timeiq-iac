@@ -1,0 +1,9 @@
+resource "google_vpc_access_connector" "connector" {
+  project        = var.project_id
+  name           = var.connector_name
+  region         = var.region
+  network        = var.vpc_name
+  ip_cidr_range  = var.cidr
+  min_throughput = var.min_throughput
+  max_throughput = var.max_throughput
+}

@@ -1,0 +1,64 @@
+name: "02 · Terraform Apply"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        required: true
+        default: staging
+        type: choice
+        options: [staging, prod]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  apply:
+    name: "Apply — ${{ matrix.env }}"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env:
+          - ${{ github.event_name == 'workflow_dispatch' && inputs.environment || (github.ref_name == 'main' && 'prod' || 'staging') }}
+    environment: ${{ matrix.env }}
+    concurrency:
+      group: tf-apply-${{ matrix.env }}
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ matrix.env == 'prod' && secrets.IAC_SA_EMAIL_PROD || secrets.IAC_SA_EMAIL_STAGING }}
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Init
+        run: |
+          terraform init \
+            -backend-config="environments/${{ matrix.env }}/backend.tfvars" \
+            -reconfigure
+
+      - name: Plan
+        run: |
+          terraform plan \
+            -var-file="environments/${{ matrix.env }}/terraform.tfvars" \
+            -out=tfplan
+
+      - name: Apply
+        run: terraform apply -auto-approve tfplan
+
+      - name: Summary
+        run: |
+          echo "## Apply complete ✅ — ${{ matrix.env }}" >> $GITHUB_STEP_SUMMARY
+          echo "| Output | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| LB IP | $(terraform output -raw lb_ip) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Frontend bucket | $(terraform output -raw frontend_bucket) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Backend service | $(terraform output -raw backend_service_name) |" >> $GITHUB_STEP_SUMMARY

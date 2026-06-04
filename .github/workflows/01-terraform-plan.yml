@@ -1,0 +1,84 @@
+name: "01 · Terraform Plan"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        required: true
+        default: staging
+        type: choice
+        options: [staging, prod]
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+jobs:
+  plan:
+    name: "Plan — ${{ matrix.env }}"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env:
+          - ${{ github.event_name == 'workflow_dispatch' && inputs.environment || (github.base_ref == 'main' && 'prod' || 'staging') }}
+    environment: ${{ matrix.env }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ matrix.env == 'prod' && secrets.IAC_SA_EMAIL_PROD || secrets.IAC_SA_EMAIL_STAGING }}
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Format check
+        run: terraform fmt -check -recursive
+        continue-on-error: true
+
+      - name: Init
+        run: |
+          terraform init \
+            -backend-config="environments/${{ matrix.env }}/backend.tfvars" \
+            -reconfigure
+
+      - name: Validate
+        run: terraform validate
+
+      - name: Plan
+        id: plan
+        run: |
+          terraform plan \
+            -var-file="environments/${{ matrix.env }}/terraform.tfvars" \
+            -out=tfplan \
+            -no-color 2>&1 | tee plan.txt
+        continue-on-error: true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tfplan-${{ matrix.env }}-${{ github.sha }}
+          path: tfplan
+          retention-days: 3
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const plan = fs.readFileSync('plan.txt', 'utf8').slice(0, 65000);
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `### Terraform Plan \`${{ matrix.env }}\`\n\`\`\`\n${plan}\n\`\`\``
+            });
+
+      - name: Fail on plan error
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
