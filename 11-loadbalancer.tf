@@ -4,20 +4,22 @@ resource "google_compute_security_policy" "armor" {
   description = "WAF policy for ${local.env}"
 
   rule {
-    action   = "deny(403)"
-    priority = 1000
-    match {
-      expr { expression = "evaluatePreconfiguredExpr('xss-stable')" }
-    }
+  action   = "allow"
+  priority = 1000
+  match {
+    expr { expression = "evaluatePreconfiguredExpr('xss-stable')" }
   }
+  preview = true
+}
 
-  rule {
-    action   = "deny(403)"
-    priority = 1001
-    match {
-      expr { expression = "evaluatePreconfiguredExpr('sqli-stable')" }
-    }
+rule {
+  action   = "allow"
+  priority = 1001
+  match {
+    expr { expression = "evaluatePreconfiguredExpr('sqli-stable')" }
   }
+  preview = true
+}
 
   rule {
   action   = "throttle"
@@ -81,6 +83,7 @@ resource "google_compute_backend_service" "api" {
   #   sample_rate = var.lb_log_sample_rate
   # }
 }
+
 
 resource "google_compute_backend_bucket" "frontend" {
   project     = var.project_id
