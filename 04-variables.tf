@@ -167,7 +167,7 @@ variable "redis_maintenance_hour" {
 variable "backend_image" {
   description = "Initial backend image — CI/CD manages after first apply"
   type        = string
-  default     = "us-docker.pkg.dev/cloudrun/container/hello"
+  default     = "us-central1-docker.pkg.dev/gwx-devops-internship/gwx-timeiq-ar-staging/gwx-timeiq-gtk-be:22"
 }
 
 variable "backend_min_instances" {
