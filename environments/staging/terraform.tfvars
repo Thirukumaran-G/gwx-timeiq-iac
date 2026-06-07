@@ -44,9 +44,9 @@ health_check_path     = "/health"
 liveness_initial_delay     = 120
 liveness_period            = 30
 liveness_failure_threshold = 5
-startup_initial_delay      = 5
-startup_period             = 5
-startup_failure_threshold  = 10
+startup_initial_delay      = 60
+startup_period             = 20
+startup_failure_threshold  = 60
 
 cdn_default_ttl         = 3600
 cdn_max_ttl             = 86400
