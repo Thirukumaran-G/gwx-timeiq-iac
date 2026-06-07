@@ -34,7 +34,7 @@ redis_maxmemory_policy = "allkeys-lru"
 redis_maintenance_day  = "SUNDAY"
 redis_maintenance_hour = 2
 
-backend_min_instances = 1
+backend_min_instances = 0
 backend_max_instances = 5
 backend_cpu           = "2"
 backend_memory        = "2Gi"
