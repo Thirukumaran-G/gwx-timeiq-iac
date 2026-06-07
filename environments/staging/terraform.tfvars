@@ -67,7 +67,7 @@ gemini_api_key = "YOUR_GEMINI_API_KEY_HERE"
 # GCS
 gcs_uploads_bucket = "gw-timeiq-gtk-gcs-uploads-staging-01"
 gcs_seeds_bucket   = "gw-timeiq-gtk-gcs-seeds-staging-01"
-gcs_ingest_bucket  = "gw-timeiq-gcs-ingest-staging-01"
+gcs_ingest_bucket  = "gw-timeiq-gtk-gcs-ingest-staging-01"
 
 # Document AI
 document_ai_processor_id = "b61dddef1553cb93"
