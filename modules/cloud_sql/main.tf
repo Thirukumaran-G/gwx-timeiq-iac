@@ -57,28 +57,3 @@ resource "google_sql_user" "user" {
   name     = var.db_user
   password = random_password.db.result
 }
-
-resource "null_resource" "db_extensions" {
-  triggers = {
-    instance = google_sql_database_instance.pg.name
-    db       = google_sql_database.db.name
-  }
-
-  provisioner "local-exec" {
-    command = <<-EOT
-      gcloud sql connect ${google_sql_database_instance.pg.name} \
-        --user=${var.db_user} \
-        --database=${var.db_name} \
-        --project=${var.project_id} \
-        --quiet << 'SQL'
-      CREATE EXTENSION IF NOT EXISTS pg_trgm;
-      CREATE EXTENSION IF NOT EXISTS unaccent;
-SQL
-    EOT
-  }
-
-  depends_on = [
-    google_sql_database.db,
-    google_sql_user.user,
-  ]
-}
