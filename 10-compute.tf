@@ -12,6 +12,7 @@ module "backend" {
   memory            = var.backend_memory
   port              = var.backend_port
   health_check_path = var.health_check_path
+  egress_mode       = "PRIVATE_RANGES_ONLY"
 
   liveness_initial_delay     = var.liveness_initial_delay
   liveness_period            = var.liveness_period
@@ -65,7 +66,7 @@ module "backend" {
     UPLOAD_DIR                         = var.upload_dir
     DOCUMENT_AI_PROJECT_ID             = var.project_id
     DOCUMENT_AI_LOCATION               = var.document_ai_location
-    DOCUMENT_AI_PROCESSOR_ID           = var.document_ai_processor_id
+    DOCUMENT_AI_PROCESSOR_ID          = var.document_ai_processor_id
     GEMINI_MAX_TOKENS                  = var.gemini_max_tokens
     GEMINI_EMBEDDING_MODEL             = var.gemini_embedding_model
     GEMINI_TIMEOUT                     = var.gemini_timeout

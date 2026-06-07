@@ -14,7 +14,7 @@ resource "google_secret_manager_secret" "db_url" {
 
 resource "google_secret_manager_secret_version" "db_url" {
   secret      = google_secret_manager_secret.db_url.id
-  secret_data = "${var.db_driver}://${var.db_user}:${var.db_password}@/cloudsql/${var.db_connection_name}/${var.db_name}"
+  secret_data = "${var.db_driver}://${var.db_user}:${var.db_password}@${var.db_host}:${var.db_port}/${var.db_name}"
 }
 
 resource "google_secret_manager_secret" "db_password" {

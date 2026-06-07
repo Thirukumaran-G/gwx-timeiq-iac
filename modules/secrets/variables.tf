@@ -54,3 +54,12 @@ variable "db_driver" {
   type    = string
   default = "postgresql+asyncpg"
 }
+
+variable "db_host" {
+  type = string
+}
+
+variable "db_port" {
+  type    = string
+  default = "5432"
+}

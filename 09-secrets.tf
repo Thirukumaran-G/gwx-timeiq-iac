@@ -4,6 +4,8 @@ module "secrets" {
   prefix             = local.prefix
   env                = local.env
   db_connection_name = module.database.connection_name
+  db_host            = module.database.private_ip
+  db_port            = "5432"
   db_user            = var.db_user
   db_name            = var.db_name
   db_password        = module.database.db_password

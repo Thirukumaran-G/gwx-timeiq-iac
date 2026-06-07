@@ -74,17 +74,17 @@ variable "liveness_failure_threshold" {
 
 variable "startup_initial_delay" {
   type    = number
-  default = 5
+  default = 60
 }
 
 variable "startup_period" {
   type    = number
-  default = 5
+  default = 20
 }
 
 variable "startup_failure_threshold" {
   type    = number
-  default = 10
+  default = 60
 }
 
 variable "ingress_mode" {

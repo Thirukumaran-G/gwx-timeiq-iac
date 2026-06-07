@@ -59,3 +59,20 @@ module "firewall" {
   iap_cidr            = var.iap_cidr
   depends_on          = [module.vpc]
 }
+
+resource "google_compute_firewall" "block_otel_egress" {
+  project   = var.project_id
+  name      = "${local.prefix}-block-otel-egress-${local.env}"
+  network   = module.vpc.vpc_self_link
+  direction = "EGRESS"
+  priority  = 900
+
+  deny {
+    protocol = "tcp"
+    ports    = ["443"]
+  }
+
+  destination_ranges = ["0.0.0.0/0"]
+
+  depends_on = [module.vpc]
+}

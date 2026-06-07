@@ -36,14 +36,14 @@ redis_maintenance_hour = 2
 
 backend_min_instances = 1
 backend_max_instances = 5
-backend_cpu           = "1"
-backend_memory        = "512Mi"
+backend_cpu           = "2"
+backend_memory        = "2Gi"
 backend_port          = 8080
 health_check_path     = "/health"
 
-liveness_initial_delay     = 10
+liveness_initial_delay     = 120
 liveness_period            = 30
-liveness_failure_threshold = 3
+liveness_failure_threshold = 5
 startup_initial_delay      = 5
 startup_period             = 5
 startup_failure_threshold  = 10
@@ -125,20 +125,20 @@ max_retry_attempts        = "3"
 retry_backoff_base        = "2"
 
 # OTEL
-# otel_traces_exporter              = "otlp"
-# otel_metrics_exporter             = "otlp"
-# otel_logs_exporter                = "otlp"
-# otel_exporter_otlp_protocol       = "http/protobuf"
-# otel_exporter_endpoint            = "https://ingress.us-west-2.aws.dash0.com"
-# otel_sampling_ratio               = "1.0"
-# instrument_all                    = "true"
-# enable_console_export             = "false"
+otel_traces_exporter              = "otlp"
+otel_metrics_exporter             = "otlp"
+otel_logs_exporter                = "otlp"
+otel_exporter_otlp_protocol       = "http/protobuf"
+otel_exporter_endpoint            = "https://ingress.us-west-2.aws.dash0.com"
+otel_sampling_ratio               = "1.0"
+instrument_all                    = "true"
+enable_console_export             = "false"
 
-otel_traces_exporter        = "none"
-otel_metrics_exporter       = "none"
-otel_logs_exporter          = "none"
-otel_exporter_otlp_protocol = "http/protobuf"
-otel_exporter_endpoint      = "https://ingress.us-west-2.aws.dash0.com"
-otel_sampling_ratio         = "0.0"
-instrument_all              = "false"
-enable_console_export       = "false"
+# otel_traces_exporter        = "none"
+# otel_metrics_exporter       = "none"
+# otel_logs_exporter          = "none"
+# otel_exporter_otlp_protocol = "http/protobuf"
+# otel_exporter_endpoint = "http://127.0.0.1:1"
+# otel_sampling_ratio         = "0.0"
+# instrument_all              = "false"
+# enable_console_export       = "false"

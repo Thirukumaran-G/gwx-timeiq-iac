@@ -225,19 +225,19 @@ variable "liveness_failure_threshold" {
 variable "startup_initial_delay" {
   description = "Startup probe initial delay seconds"
   type        = number
-  default     = 5
+  default     = 10
 }
 
 variable "startup_period" {
   description = "Startup probe period seconds"
   type        = number
-  default     = 5
+  default     = 10
 }
 
 variable "startup_failure_threshold" {
   description = "Startup probe failure threshold"
   type        = number
-  default     = 10
+  default     = 30
 }
 
 variable "cdn_default_ttl" {
