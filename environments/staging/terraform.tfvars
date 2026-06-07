@@ -3,7 +3,7 @@ region                 = "us-central1"
 environment            = "staging"
 app_name               = "gwx-timeiq"
 team_label             = "platform"
-domain                 = "staging.timeiq.deploy.poc.genworx.ai"
+domain                 = "timeiq.deploy.poc.genworx.ai"
 existing_dns_zone_name = "deploy-poc-genworx-ai"
 alert_email            = "thirukumarang@genworx.ai"
 
@@ -18,9 +18,9 @@ health_check_ports  = ["8080", "443"]
 iap_cidr            = "35.235.240.0/20"
 
 db_tier                 = "db-g1-small"
-db_version              = "POSTGRES_CLOUDSQL_POSTGRES_18"
+db_version              = "POSTGRES_17"
 db_name                 = "timeiq"
-db_user                 = "timeiq_user"
+db_user                 = "timeiq_user" 
 db_deletion_protection  = false
 db_backup_start_time    = "02:00"
 db_transaction_log_days = 7
