@@ -313,3 +313,215 @@ variable "existing_dns_zone_name" {
   type = string
 }
 
+variable "gemini_api_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "gcs_uploads_bucket" {
+  type = string
+}
+
+variable "gcs_seeds_bucket" {
+  type = string
+}
+
+variable "gcs_ingest_bucket" {
+  type = string
+}
+
+variable "document_ai_processor_id" {
+  type = string
+}
+
+variable "document_ai_location" {
+  type = string
+}
+
+variable "platform_admin_email" {
+  type = string
+}
+
+variable "allowed_origins" {
+  type = string
+}
+
+variable "log_level" {
+  type = string
+}
+
+variable "debug" {
+  type = string
+}
+
+variable "auth_provider" {
+  type = string
+}
+
+variable "jwt_algorithm" {
+  type = string
+}
+
+variable "access_token_expire_minutes" {
+  type = string
+}
+
+variable "refresh_token_expire_days" {
+  type = string
+}
+
+variable "auto_run_migrations" {
+  type = string
+}
+
+variable "use_gcs" {
+  type = string
+}
+
+variable "storage_provider" {
+  type = string
+}
+
+variable "seeds_dir" {
+  type = string
+}
+
+variable "ingest_dir" {
+  type = string
+}
+
+variable "upload_dir" {
+  type = string
+}
+
+variable "redis_ssl" {
+  type = string
+}
+
+variable "redis_ssl_cert_reqs" {
+  type = string
+}
+
+variable "redis_max_connections" {
+  type = string
+}
+
+variable "postgres_port" {
+  type = string
+}
+
+variable "postgres_sslmode" {
+  type = string
+}
+
+variable "db_pool_size" {
+  type = string
+}
+
+variable "db_max_overflow" {
+  type = string
+}
+
+variable "db_pool_timeout" {
+  type = string
+}
+
+variable "db_pool_recycle" {
+  type = string
+}
+
+variable "db_statement_timeout_ms" {
+  type = string
+}
+
+variable "db_idle_in_transaction_timeout_ms" {
+  type = string
+}
+
+variable "gemini_max_tokens" {
+  type = string
+}
+
+variable "gemini_embedding_model" {
+  type = string
+}
+
+variable "gemini_timeout" {
+  type = string
+}
+
+variable "worker_concurrency" {
+  type = string
+}
+
+variable "queue_name" {
+  type = string
+}
+
+variable "queue_processing_timeout" {
+  type = string
+}
+
+variable "client_sync_queue" {
+  type = string
+}
+
+variable "assignment_sync_queue" {
+  type = string
+}
+
+variable "audit_queue_name" {
+  type = string
+}
+
+variable "audit_dlq_name" {
+  type = string
+}
+
+variable "audit_rate_limit_requests" {
+  type = string
+}
+
+variable "audit_rate_limit_window" {
+  type = string
+}
+
+variable "max_retry_attempts" {
+  type = string
+}
+
+variable "retry_backoff_base" {
+  type = string
+}
+
+variable "otel_traces_exporter" {
+  type = string
+}
+
+variable "otel_metrics_exporter" {
+  type = string
+}
+
+variable "otel_logs_exporter" {
+  type = string
+}
+
+variable "otel_exporter_otlp_protocol" {
+  type = string
+}
+
+variable "otel_exporter_endpoint" {
+  type = string
+}
+
+variable "otel_sampling_ratio" {
+  type = string
+}
+
+variable "instrument_all" {
+  type = string
+}
+
+variable "enable_console_export" {
+  type = string
+}

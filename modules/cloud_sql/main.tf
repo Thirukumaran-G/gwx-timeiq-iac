@@ -24,7 +24,7 @@ resource "google_sql_database_instance" "pg" {
       enable_private_path_for_google_cloud_services = true
     }
 
-    backup_configuration { # first 100% it was free then next it will charge 
+    backup_configuration {
       enabled                        = true
       start_time                     = var.backup_start_time
       point_in_time_recovery_enabled = true
@@ -35,18 +35,11 @@ resource "google_sql_database_instance" "pg" {
       }
     }
 
-    maintenance_window { # updates happen anytime best to mention is better to avoid surprices as well no cost for it 
+    maintenance_window {
       day          = var.maintenance_day
       hour         = var.maintenance_hour
       update_track = var.maintenance_update_track
     }
-
-    # insights_config { Query Analysis cost 
-    #   query_insights_enabled  = true
-    #   query_string_length     = var.query_string_length
-    #   record_application_tags = true
-    #   record_client_address   = false
-    # }
 
     user_labels = var.labels
   }
@@ -63,4 +56,29 @@ resource "google_sql_user" "user" {
   instance = google_sql_database_instance.pg.name
   name     = var.db_user
   password = random_password.db.result
+}
+
+resource "null_resource" "db_extensions" {
+  triggers = {
+    instance = google_sql_database_instance.pg.name
+    db       = google_sql_database.db.name
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      gcloud sql connect ${google_sql_database_instance.pg.name} \
+        --user=${var.db_user} \
+        --database=${var.db_name} \
+        --project=${var.project_id} \
+        --quiet << 'SQL'
+      CREATE EXTENSION IF NOT EXISTS pg_trgm;
+      CREATE EXTENSION IF NOT EXISTS unaccent;
+SQL
+    EOT
+  }
+
+  depends_on = [
+    google_sql_database.db,
+    google_sql_user.user,
+  ]
 }

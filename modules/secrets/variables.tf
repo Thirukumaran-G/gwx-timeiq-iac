@@ -27,6 +27,19 @@ variable "db_password" {
   sensitive = true
 }
 
+variable "redis_host" {
+  type = string
+}
+
+variable "redis_port" {
+  type = number
+}
+
+variable "gemini_api_key" {
+  type      = string
+  sensitive = true
+}
+
 variable "labels" {
   type    = map(string)
   default = {}

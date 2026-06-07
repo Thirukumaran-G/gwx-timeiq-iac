@@ -112,6 +112,5 @@ variable "secret_env_vars" {
     secret_name = string
     version     = string
   }))
-
   default = {}
 }

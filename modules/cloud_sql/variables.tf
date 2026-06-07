@@ -16,7 +16,7 @@ variable "tier" {
 
 variable "db_version" {
   type    = string
-  default = "POSTGRES_15"
+  default = "POSTGRES_CLOUDSQL_POSTGRES_18"
 }
 
 variable "db_name" {
