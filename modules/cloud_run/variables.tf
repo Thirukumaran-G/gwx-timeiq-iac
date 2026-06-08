@@ -79,3 +79,16 @@ variable "secret_env_vars" {
   }))
   default = {}
 }
+
+# ==================== HEALTH CHECK / PROBE VARIABLES ====================
+variable "startup_probe_initial_delay" {
+  description = "Startup probe initial delay seconds"
+  type        = number
+  default     = 10
+}
+
+variable "liveness_probe_initial_delay" {
+  description = "Liveness probe initial delay seconds"
+  type        = number
+  default     = 30
+}

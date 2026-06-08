@@ -31,6 +31,31 @@ resource "google_cloud_run_v2_service" "this" {
         startup_cpu_boost = true
       }
 
+      # ==================== HEALTH CHECKS / PROBES ====================
+      startup_probe {
+        initial_delay_seconds = 10
+        timeout_seconds       = 5
+        period_seconds        = 10
+        failure_threshold     = 6
+
+        http_get {
+          path = "/api/health"
+          port = var.port
+        }
+      }
+
+      liveness_probe {
+        initial_delay_seconds = 30
+        timeout_seconds       = 5
+        period_seconds        = 30
+        failure_threshold     = 3
+
+        http_get {
+          path = "/api/health"
+          port = var.port
+        }
+      }
+
       dynamic "env" {
         for_each = var.env_vars
         content {

@@ -1,3 +1,19 @@
+# ==================== HEALTH CHECK (PROBE) ====================
+resource "google_compute_health_check" "api" {
+  project             = var.project_id
+  name                = "${local.lb_name}-api-health-check"
+  description         = "Health check for TimeIQ API backend"
+  timeout_sec         = 5
+  check_interval_sec  = 10
+  healthy_threshold   = 2
+  unhealthy_threshold = 3
+
+  http_health_check {
+    request_path = "/api/health"
+    port         = var.backend_port
+  }
+}
+
 resource "google_compute_security_policy" "armor" {
   project     = var.project_id
   name        = local.armor_name
@@ -70,6 +86,7 @@ resource "google_compute_backend_service" "api" {
   timeout_sec = var.lb_timeout_sec
 
   security_policy = google_compute_security_policy.armor.id
+  health_checks   = [google_compute_health_check.api.id]
 
   backend { group = google_compute_region_network_endpoint_group.api_neg.id }
 }

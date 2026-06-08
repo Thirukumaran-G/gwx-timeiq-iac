@@ -482,3 +482,34 @@ variable "instrument_all" {
 variable "enable_console_export" {
   type = string
 }
+
+# ==================== HEALTH CHECK VARIABLES ====================
+variable "health_check_request_path" {
+  description = "Health check endpoint for the backend"
+  type        = string
+  default     = "/api/health"
+}
+
+variable "health_check_timeout_sec" {
+  description = "Health check timeout seconds"
+  type        = number
+  default     = 5
+}
+
+variable "health_check_interval_sec" {
+  description = "Health check interval seconds"
+  type        = number
+  default     = 10
+}
+
+variable "health_check_healthy_threshold" {
+  description = "Number of successful checks to mark healthy"
+  type        = number
+  default     = 2
+}
+
+variable "health_check_unhealthy_threshold" {
+  description = "Number of failed checks to mark unhealthy"
+  type        = number
+  default     = 3
+}
