@@ -77,3 +77,23 @@ resource "google_secret_manager_secret_version" "gemini_api_key" {
   secret      = google_secret_manager_secret.gemini_api_key.id
   secret_data = var.gemini_api_key
 }
+
+resource "random_password" "platform_admin_password" {
+  length  = 16
+  special = false
+}
+
+resource "google_secret_manager_secret" "platform_admin_password" {
+  project   = var.project_id
+  secret_id = "${var.prefix}-platform-admin-password-${var.env}"
+  labels    = var.labels
+
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "platform_admin_password" {
+  secret      = google_secret_manager_secret.platform_admin_password.id
+  secret_data = random_password.platform_admin_password.result
+}

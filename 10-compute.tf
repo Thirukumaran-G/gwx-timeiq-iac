@@ -104,6 +104,10 @@ module "backend" {
       secret_name = module.secrets.db_password_secret_name
       version     = "latest"
     }
+    PLATFORM_ADMIN_PASSWORD = {
+    secret_name = module.secrets.platform_admin_password_secret_name
+    version     = "latest"
+    }
   }
 
   depends_on = [

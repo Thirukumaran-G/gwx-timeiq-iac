@@ -28,3 +28,8 @@ output "secret_ids" {
     google_secret_manager_secret.gemini_api_key.id,
   ]
 }
+
+output "platform_admin_password_secret_name" {
+  value = google_secret_manager_secret.platform_admin_password.secret_id
+}
+
