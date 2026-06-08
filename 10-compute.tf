@@ -12,7 +12,7 @@ module "backend" {
   memory            = var.backend_memory
   port              = var.backend_port
   health_check_path = var.health_check_path
-  egress_mode       = "PRIVATE_RANGES_ONLY"
+  egress_mode = "PRIVATE_RANGES_ONLY"
 
   liveness_initial_delay     = var.liveness_initial_delay
   liveness_period            = var.liveness_period
@@ -31,8 +31,6 @@ module "backend" {
     GOOGLE_CLOUD_PROJECT               = var.project_id
     REDIS_HOST                         = module.redis.host
     REDIS_PORT                         = tostring(module.redis.port)
-    REDIS_SSL                          = var.redis_ssl
-    REDIS_SSL_CERT_REQS                = var.redis_ssl_cert_reqs
     REDIS_MAX_CONNECTIONS              = var.redis_max_connections
     POSTGRES_DB                        = var.db_name
     POSTGRES_HOST                      = module.database.private_ip
