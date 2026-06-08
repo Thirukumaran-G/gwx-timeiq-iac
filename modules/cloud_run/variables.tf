@@ -47,44 +47,9 @@ variable "port" {
   default = 8080
 }
 
-variable "health_check_path" {
-  type    = string
-  default = "/health"
-}
-
 variable "labels" {
   type    = map(string)
   default = {}
-}
-
-variable "liveness_initial_delay" {
-  type    = number
-  default = 10
-}
-
-variable "liveness_period" {
-  type    = number
-  default = 30
-}
-
-variable "liveness_failure_threshold" {
-  type    = number
-  default = 3
-}
-
-variable "startup_initial_delay" {
-  type    = number
-  default = 60
-}
-
-variable "startup_period" {
-  type    = number
-  default = 20
-}
-
-variable "startup_failure_threshold" {
-  type    = number
-  default = 60
 }
 
 variable "ingress_mode" {

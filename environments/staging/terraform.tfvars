@@ -20,7 +20,7 @@ iap_cidr            = "35.235.240.0/20"
 db_tier                 = "db-g1-small"
 db_version              = "POSTGRES_17"
 db_name                 = "timeiq"
-db_user                 = "timeiq_user" 
+db_user                 = "timeiq_user"
 db_deletion_protection  = false
 db_backup_start_time    = "02:00"
 db_transaction_log_days = 7
@@ -39,14 +39,6 @@ backend_max_instances = 5
 backend_cpu           = "2"
 backend_memory        = "2Gi"
 backend_port          = 8080
-health_check_path     = "/health"
-
-liveness_initial_delay     = 120
-liveness_period            = 30
-liveness_failure_threshold = 5
-startup_initial_delay      = 30
-startup_period             = 10
-startup_failure_threshold  = 30
 
 cdn_default_ttl         = 3600
 cdn_max_ttl             = 86400
@@ -74,12 +66,12 @@ document_ai_processor_id = "b61dddef1553cb93"
 document_ai_location     = "us"
 
 # App
-platform_admin_email = "gwx-timeiq-support@genworx.ai"
-allowed_origins      = "https://staging.timeiq.genworx.ai"
-log_level            = "DEBUG"
-debug                = "true"
-auth_provider        = "local"
-jwt_algorithm        = "HS256"
+platform_admin_email        = "gwx-timeiq-support@genworx.ai"
+allowed_origins             = "https://staging.timeiq.genworx.ai"
+log_level                   = "DEBUG"
+debug                       = "true"
+auth_provider               = "local"
+jwt_algorithm               = "HS256"
 access_token_expire_minutes = "30"
 refresh_token_expire_days   = "7"
 auto_run_migrations         = "true"
@@ -92,17 +84,17 @@ ingest_dir       = "data/ingest"
 upload_dir       = "data/uploads"
 
 # Redis
-redis_ssl            = "true"
-redis_ssl_cert_reqs  = "none"
+redis_ssl             = "true"
+redis_ssl_cert_reqs   = "none"
 redis_max_connections = "50"
 
 # DB connection
-postgres_port    = "5432"
-postgres_sslmode = "require"
-db_pool_size     = "3"
-db_max_overflow  = "5"
-db_pool_timeout  = "30"
-db_pool_recycle  = "1800"
+postgres_port                     = "5432"
+postgres_sslmode                  = "require"
+db_pool_size                      = "3"
+db_max_overflow                   = "5"
+db_pool_timeout                   = "30"
+db_pool_recycle                   = "1800"
 db_statement_timeout_ms           = "30000"
 db_idle_in_transaction_timeout_ms = "60000"
 
@@ -112,33 +104,24 @@ gemini_embedding_model = "gemini-embedding-001"
 gemini_timeout         = "30s"
 
 # Worker
-worker_concurrency       = "2"
-queue_name               = "timesheet_queue"
-queue_processing_timeout = "300"
-client_sync_queue        = "client_sync_queue"
-assignment_sync_queue    = "assignment_sync_queue"
-audit_queue_name         = "audit_queue"
-audit_dlq_name           = "audit_dlq"
+worker_concurrency        = "2"
+queue_name                = "timesheet_queue"
+queue_processing_timeout  = "300"
+client_sync_queue         = "client_sync_queue"
+assignment_sync_queue     = "assignment_sync_queue"
+audit_queue_name          = "audit_queue"
+audit_dlq_name            = "audit_dlq"
 audit_rate_limit_requests = "100"
 audit_rate_limit_window   = "60"
 max_retry_attempts        = "3"
 retry_backoff_base        = "2"
 
 # OTEL
-# otel_traces_exporter              = "otlp"
-# otel_metrics_exporter             = "otlp"
-# otel_logs_exporter                = "otlp"
-# otel_exporter_otlp_protocol       = "http/protobuf"
-# otel_exporter_endpoint            = "https://ingress.us-west-2.aws.dash0.com"
-# otel_sampling_ratio               = "1.0"
-# instrument_all                    = "true"
-# enable_console_export             = "false"
-
-otel_traces_exporter  = "none"
-otel_metrics_exporter = "none"
-otel_logs_exporter    = "none"
-otel_sampling_ratio   = "0.0"
-instrument_all        = "false"
-otel_exporter_endpoint = "https://ingress.us-west-2.aws.dash0.com"
-enable_console_export             = "false"
+otel_traces_exporter        = "none"
+otel_metrics_exporter       = "none"
+otel_logs_exporter          = "none"
+otel_sampling_ratio         = "0.0"
+instrument_all              = "false"
+otel_exporter_endpoint      = "https://ingress.us-west-2.aws.dash0.com"
+enable_console_export       = "false"
 otel_exporter_otlp_protocol = "http/protobuf"

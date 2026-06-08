@@ -1,0 +1,200 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:
+    run.googleapis.com/ingress: internal-and-cloud-load-balancing
+    run.googleapis.com/ingress-status: internal-and-cloud-load-balancing
+    run.googleapis.com/maxScale: '100'
+    run.googleapis.com/urls: '["https://gwx-timeiq-api-staging-451325681713.us-central1.run.app"]'
+  labels:
+    app: gwx-timeiq
+    cloud.googleapis.com/location: us-central1
+    environment: staging
+    managed_by: terraform
+    team: platform
+  name: gwx-timeiq-api-staging
+  namespace: '451325681713'
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '5'
+        autoscaling.knative.dev/minScale: '0'
+        run.googleapis.com/cpu-throttling: 'false'
+        run.googleapis.com/sessionAffinity: 'false'
+        run.googleapis.com/startup-cpu-boost: 'true'
+        run.googleapis.com/vpc-access-connector: projects/gwx-devops-internship/locations/us-central1/connectors/gwx-tiq-stg-conn
+        run.googleapis.com/vpc-access-egress: private-ranges-only
+      labels: {}
+    spec:
+      containerConcurrency: 160
+      containers:
+      - env:
+        - name: ACCESS_TOKEN_EXPIRE_MINUTES
+          value: '30'
+        - name: ALLOWED_ORIGINS
+          value: https://staging.timeiq.genworx.ai
+        - name: APP_ENV
+          value: staging
+        - name: APP_NAME
+          value: gwx-timeiq
+        - name: ASSIGNMENT_SYNC_QUEUE
+          value: assignment_sync_queue
+        - name: AUDIT_DLQ_NAME
+          value: audit_dlq
+        - name: AUDIT_QUEUE_NAME
+          value: audit_queue
+        - name: AUDIT_RATE_LIMIT_REQUESTS
+          value: '100'
+        - name: AUDIT_RATE_LIMIT_WINDOW
+          value: '60'
+        - name: AUTH_PROVIDER
+          value: local
+        - name: AUTO_RUN_MIGRATIONS
+          value: 'true'
+        - name: CLIENT_SYNC_QUEUE
+          value: client_sync_queue
+        - name: DB_IDLE_IN_TRANSACTION_TIMEOUT_MS
+          value: '60000'
+        - name: DB_MAX_OVERFLOW
+          value: '5'
+        - name: DB_POOL_RECYCLE
+          value: '1800'
+        - name: DB_POOL_SIZE
+          value: '3'
+        - name: DB_POOL_TIMEOUT
+          value: '30'
+        - name: DB_STATEMENT_TIMEOUT_MS
+          value: '30000'
+        - name: DEBUG
+          value: 'true'
+        - name: DEPLOYMENT_ENVIRONMENT
+          value: staging
+        - name: DOCUMENT_AI_LOCATION
+          value: us
+        - name: DOCUMENT_AI_PROCESSOR_ID
+          value: b61dddef1553cb93
+        - name: DOCUMENT_AI_PROJECT_ID
+          value: gwx-devops-internship
+        - name: ENABLE_CONSOLE_EXPORT
+          value: 'false'
+        - name: ENVIRONMENT
+          value: staging
+        - name: GCS_INGEST_BUCKET
+          value: gw-timeiq-gtk-gcs-ingest-staging-01
+        - name: GCS_SEEDS_BUCKET
+          value: gw-timeiq-gtk-gcs-seeds-staging-01
+        - name: GCS_UPLOADS_BUCKET
+          value: gw-timeiq-gtk-gcs-uploads-staging-01
+        - name: GEMINI_EMBEDDING_MODEL
+          value: gemini-embedding-001
+        - name: GEMINI_MAX_TOKENS
+          value: '2048'
+        - name: GEMINI_TIMEOUT
+          value: 30s
+        - name: GOOGLE_CLOUD_PROJECT
+          value: gwx-devops-internship
+        - name: INGEST_DIR
+          value: data/ingest
+        - name: INSTRUMENT_ALL
+          value: 'false'
+        - name: JWT_ALGORITHM
+          value: HS256
+        - name: LOG_LEVEL
+          value: DEBUG
+        - name: MAX_RETRY_ATTEMPTS
+          value: '3'
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: https://ingress.us-west-2.aws.dash0.com
+        - name: OTEL_EXPORTER_OTLP_PROTOCOL
+          value: http/protobuf
+        - name: OTEL_LOGS_EXPORTER
+          value: none
+        - name: OTEL_METRICS_EXPORTER
+          value: none
+        - name: OTEL_PYTHON_GRPC_EXCLUDED_URLS
+          value: https://ingress.us-west-2.aws.dash0.com/*
+        - name: OTEL_PYTHON_REQUESTS_EXCLUDED_URLS
+          value: https://ingress.us-west-2.aws.dash0.com/*
+        - name: OTEL_SAMPLING_RATIO
+          value: '0.0'
+        - name: OTEL_TRACES_EXPORTER
+          value: none
+        - name: PLATFORM_ADMIN_EMAIL
+          value: gwx-timeiq-support@genworx.ai
+        - name: POSTGRES_DB
+          value: timeiq
+        - name: POSTGRES_HOST
+          value: 10.221.1.3
+        - name: POSTGRES_PORT
+          value: '5432'
+        - name: POSTGRES_SSLMODE
+          value: require
+        - name: POSTGRES_USER
+          value: timeiq_user
+        - name: PROJECT_ID
+          value: gwx-devops-internship
+        - name: QUEUE_NAME
+          value: timesheet_queue
+        - name: QUEUE_PROCESSING_TIMEOUT
+          value: '300'
+        - name: REDIS_HOST
+          value: 10.221.0.4
+        - name: REDIS_MAX_CONNECTIONS
+          value: '50'
+        - name: REDIS_PORT
+          value: '6379'
+        - name: REFRESH_TOKEN_EXPIRE_DAYS
+          value: '7'
+        - name: RETRY_BACKOFF_BASE
+          value: '2'
+        - name: SEEDS_DIR
+          value: data/seeds
+        - name: SERVICE_NAMESPACE
+          value: gwx-timeiq
+        - name: STORAGE_PROVIDER
+          value: gcs
+        - name: UPLOAD_DIR
+          value: data/uploads
+        - name: USE_GCS
+          value: 'true'
+        - name: WORKER_CONCURRENCY
+          value: '2'
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: gwx-timeiq-db-url-staging
+        - name: GEMINI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: gwx-timeiq-gemini-api-key-staging
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: gwx-timeiq-db-password-staging
+        - name: REDIS_ADDR
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: gwx-timeiq-redis-addr-staging
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: gwx-timeiq-secret-key-staging
+        image: us-central1-docker.pkg.dev/gwx-devops-internship/gwx-timeiq-ar-staging/gwx-timeiq-gtk-be:22
+        ports:
+        - containerPort: 8080
+          name: http1
+        resources:
+          limits:
+            cpu: '2'
+            memory: 2Gi
+      serviceAccountName: gwx-timeiq-api-sa-staging@gwx-devops-internship.iam.gserviceaccount.com
+      timeoutSeconds: 300
+  traffic:
+  - latestRevision: true
+    percent: 100

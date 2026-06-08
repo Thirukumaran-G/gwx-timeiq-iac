@@ -51,20 +51,6 @@ resource "google_cloud_run_v2_service" "this" {
           }
         }
       }
-
-      liveness_probe {
-        http_get { path = var.health_check_path }
-        initial_delay_seconds = var.liveness_initial_delay
-        period_seconds        = var.liveness_period
-        failure_threshold     = var.liveness_failure_threshold
-      }
-
-      startup_probe {
-        http_get { path = var.health_check_path }
-        initial_delay_seconds = var.startup_initial_delay
-        period_seconds        = var.startup_period
-        failure_threshold     = var.startup_failure_threshold
-      }
     }
   }
 

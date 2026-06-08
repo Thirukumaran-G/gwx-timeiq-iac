@@ -1,25 +1,17 @@
 module "backend" {
-  source            = "./modules/cloud_run"
-  project_id        = var.project_id
-  region            = var.region
-  name              = local.backend_cr_name
-  image             = var.backend_image
-  service_account   = var.backend_runtime_sa_email
-  connector_id      = module.connector.connector_id
-  min_instances     = var.backend_min_instances
-  max_instances     = var.backend_max_instances
-  cpu               = var.backend_cpu
-  memory            = var.backend_memory
-  port              = var.backend_port
-  health_check_path = var.health_check_path
-  egress_mode = "PRIVATE_RANGES_ONLY"
-
-  liveness_initial_delay     = var.liveness_initial_delay
-  liveness_period            = var.liveness_period
-  liveness_failure_threshold = var.liveness_failure_threshold
-  startup_initial_delay      = var.startup_initial_delay
-  startup_period             = var.startup_period
-  startup_failure_threshold  = var.startup_failure_threshold
+  source          = "./modules/cloud_run"
+  project_id      = var.project_id
+  region          = var.region
+  name            = local.backend_cr_name
+  image           = var.backend_image
+  service_account = var.backend_runtime_sa_email
+  connector_id    = module.connector.connector_id
+  min_instances   = var.backend_min_instances
+  max_instances   = var.backend_max_instances
+  cpu             = var.backend_cpu
+  memory          = var.backend_memory
+  port            = var.backend_port
+  egress_mode     = "PRIVATE_RANGES_ONLY"
 
   labels = local.common_labels
 

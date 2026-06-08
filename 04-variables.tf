@@ -198,48 +198,6 @@ variable "backend_port" {
   default     = 8080
 }
 
-variable "health_check_path" {
-  description = "Liveness and startup probe HTTP path"
-  type        = string
-  default     = "/health"
-}
-
-variable "liveness_initial_delay" {
-  description = "Liveness probe initial delay seconds"
-  type        = number
-  default     = 10
-}
-
-variable "liveness_period" {
-  description = "Liveness probe period seconds"
-  type        = number
-  default     = 30
-}
-
-variable "liveness_failure_threshold" {
-  description = "Liveness probe failure threshold"
-  type        = number
-  default     = 3
-}
-
-variable "startup_initial_delay" {
-  description = "Startup probe initial delay seconds"
-  type        = number
-  default     = 10
-}
-
-variable "startup_period" {
-  description = "Startup probe period seconds"
-  type        = number
-  default     = 10
-}
-
-variable "startup_failure_threshold" {
-  description = "Startup probe failure threshold"
-  type        = number
-  default     = 30
-}
-
 variable "cdn_default_ttl" {
   description = "CDN default TTL seconds"
   type        = number
@@ -293,7 +251,6 @@ variable "alert_email" {
   type        = string
 }
 
-# ── Identity — created by bootstrap gcloud commands ───────────────
 variable "backend_runtime_sa_email" {
   description = "Backend Cloud Run runtime SA email (created by bootstrap)"
   type        = string
