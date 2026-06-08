@@ -70,7 +70,6 @@ resource "google_compute_backend_service" "api" {
   timeout_sec = var.lb_timeout_sec
 
   security_policy = google_compute_security_policy.armor.id
-  # health_checks   = [google_compute_health_check.api.id]   # ← REMOVED (Not allowed with Serverless NEG)
 
   backend { group = google_compute_region_network_endpoint_group.api_neg.id }
 }
@@ -105,15 +104,7 @@ resource "google_compute_url_map" "main" {
     default_service = google_compute_backend_bucket.frontend.id
 
     path_rule {
-      paths = [
-        "/api",
-        "/api/*",
-        "/docs",
-        "/docs/*",
-        "/redoc",
-        "/redoc/*",
-        "/openapi.json",
-      ]
+      paths   = ["/api", "/api/*"]
       service = google_compute_backend_service.api.id
     }
   }
@@ -164,7 +155,6 @@ resource "google_compute_global_forwarding_rule" "http" {
   port_range = "80"
 }
 
-# Allow unauthenticated access from LB to Cloud Run
 resource "google_cloud_run_v2_service_iam_member" "public" {
   project  = var.project_id
   location = var.region
