@@ -4,44 +4,39 @@ resource "google_compute_security_policy" "armor" {
   description = "WAF policy for ${local.env}"
 
   rule {
-  action   = "allow"
-  priority = 1000
-  match {
-    expr { expression = "evaluatePreconfiguredExpr('xss-stable')" }
+    action   = "allow"
+    priority = 1000
+    match {
+      expr { expression = "evaluatePreconfiguredExpr('xss-stable')" }
+    }
+    preview = true
   }
-  preview = true
-}
-
-rule {
-  action   = "allow"
-  priority = 1001
-  match {
-    expr { expression = "evaluatePreconfiguredExpr('sqli-stable')" }
-  }
-  preview = true
-}
 
   rule {
-  action   = "throttle"
-  priority = 1002
-
-  match {
-    expr {
-      expression = "true"
+    action   = "allow"
+    priority = 1001
+    match {
+      expr { expression = "evaluatePreconfiguredExpr('sqli-stable')" }
     }
+    preview = true
   }
 
-  rate_limit_options {
-    conform_action = "allow"
-    exceed_action  = "deny(429)"
-    enforce_on_key = "IP"
-
-    rate_limit_threshold {
-      count        = var.rate_limit_count
-      interval_sec = var.rate_limit_interval_sec
+  rule {
+    action   = "throttle"
+    priority = 1002
+    match {
+      expr { expression = "true" }
+    }
+    rate_limit_options {
+      conform_action = "allow"
+      exceed_action  = "deny(429)"
+      enforce_on_key = "IP"
+      rate_limit_threshold {
+        count        = var.rate_limit_count
+        interval_sec = var.rate_limit_interval_sec
+      }
     }
   }
- }
 
   rule {
     action   = "allow"
@@ -77,13 +72,7 @@ resource "google_compute_backend_service" "api" {
   security_policy = google_compute_security_policy.armor.id
 
   backend { group = google_compute_region_network_endpoint_group.api_neg.id }
-
-  # log_config {
-  #   enable      = true
-  #   sample_rate = var.lb_log_sample_rate
-  # }
 }
-
 
 resource "google_compute_backend_bucket" "frontend" {
   project     = var.project_id
@@ -115,7 +104,15 @@ resource "google_compute_url_map" "main" {
     default_service = google_compute_backend_bucket.frontend.id
 
     path_rule {
-      paths   = ["/api", "/api/*"]
+      paths = [
+        "/api",
+        "/api/*",
+        "/docs",
+        "/docs/*",
+        "/redoc",
+        "/redoc/*",
+        "/openapi.json",
+      ]
       service = google_compute_backend_service.api.id
     }
   }
@@ -164,4 +161,15 @@ resource "google_compute_global_forwarding_rule" "http" {
   target     = google_compute_target_http_proxy.redirect.id
   ip_address = google_compute_global_address.lb_ip.address
   port_range = "80"
+}
+
+# Allow unauthenticated access from LB to Cloud Run
+resource "google_cloud_run_v2_service_iam_member" "public" {
+  project  = var.project_id
+  location = var.region
+  name     = module.backend.service_name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+
+  depends_on = [module.backend]
 }
